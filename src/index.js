@@ -41,6 +41,8 @@ export const renderMap = (recId) => {
 
     objectManager.objects.options.set('preset', 'islands#orangeDotIcon')
     objectManager.clusters.options.set('preset', 'islands#orangeClusterIcons')
+    objectManager.objects.options.set('iconColor', iconColor)
+    objectManager.clusters.options.set('iconColor', iconColor)
 
     _map.geoObjects.add(objectManager)
 
@@ -51,7 +53,6 @@ export const renderMap = (recId) => {
         'id': idx.toString(),
         'geometry': {'type': 'Point', 'coordinates': i.coords}, // coords
         'properties': {
-          'iconColor': iconColor,
           'balloonContentHeader': i.name, // name
           'balloonContentBody': `
             <p>
