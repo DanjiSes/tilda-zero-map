@@ -2,6 +2,8 @@ import data from './partners.json'
 import ex from './ex.json'
 import {CustomSearchProvider} from './CustomSearchProvider';
 
+const iconColor = '#ef6b03'
+
 /**
  * Функция рендера карты ПВЗ
  */
@@ -37,8 +39,8 @@ export const renderMap = (recId) => {
       // clusterDisableClickZoom: true,
     })
 
-    objectManager.objects.options.set('preset', 'islands#greenDotIcon')
-    objectManager.clusters.options.set('preset', 'islands#greenClusterIcons')
+    objectManager.objects.options.set('preset', 'islands#orangeDotIcon')
+    objectManager.clusters.options.set('preset', 'islands#orangeClusterIcons')
 
     _map.geoObjects.add(objectManager)
 
@@ -49,6 +51,7 @@ export const renderMap = (recId) => {
         'id': idx.toString(),
         'geometry': {'type': 'Point', 'coordinates': i.coords}, // coords
         'properties': {
+          'iconColor': iconColor,
           'balloonContentHeader': i.name, // name
           'balloonContentBody': `
             <p>
@@ -74,8 +77,7 @@ export const renderMap = (recId) => {
         resultsPerPage: 5,
       }});
 
-    _map.controls
-        .add(mySearchControl);
+    _map.controls.add(mySearchControl);
   })
 }
 
