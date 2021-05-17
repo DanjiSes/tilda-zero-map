@@ -1,5 +1,6 @@
 import data from './partners.json'
 import ex from './ex.json'
+import {CustomSearchProvider} from './CustomSearchProvider';
 
 /**
  * Функция рендера карты ПВЗ
@@ -13,15 +14,18 @@ export const renderMap = (recId) => {
   // Элемент в который помещается карта
   const $map = $(`#${recId} .sh-mapMarkers`)
 
+  const mapCenter = data.reduce((acc, {coords}) => [acc[0]+=coords[0], acc[1]+=coords[1]], [0, 0])
+  mapCenter[0] /= data.length
+  mapCenter[1] /= data.length
+
   ymaps.ready(() => {
     // Указывается идентификатор HTML-элемента.
     const _map = new ymaps.Map($map[0], {
-      center: [55.831903, 37.411961],
-      zoom: 5,
-      controls: ['zoomControl', 'searchControl'],
-    }, {
-      searchControlProvider: 'yandex#search',
+      center: mapCenter,
+      zoom: 4,
+      controls: ['zoomControl'],
     })
+
 
     const objectManager = new ymaps.ObjectManager({
       // Чтобы метки начали кластеризоваться, выставляем опцию.
@@ -30,7 +34,7 @@ export const renderMap = (recId) => {
       gridSize: 32,
       // geoObjectOpenBalloonOnClick: false,
       clusterOpenBalloonOnClick: false,
-      clusterDisableClickZoom: true,
+      // clusterDisableClickZoom: true,
     })
 
     objectManager.objects.options.set('preset', 'islands#greenDotIcon')
@@ -38,14 +42,12 @@ export const renderMap = (recId) => {
 
     _map.geoObjects.add(objectManager)
 
-    // objectManager.add(ex)
-
     objectManager.add({
       type: 'FeatureCollection',
       features: data.map((i, idx) => ({
         'type': 'Feature',
         'id': idx.toString(),
-        'geometry': {'type': 'Point', 'coordinates': i.coords}, // coors
+        'geometry': {'type': 'Point', 'coordinates': i.coords}, // coords
         'properties': {
           'balloonContentHeader': i.name, // name
           'balloonContentBody': `
@@ -54,13 +56,26 @@ export const renderMap = (recId) => {
               ${i.phones.map((p) => `<a href="tel:${p}" target="_blank">${p}</a>`).join(', ')}
             </p>
           `,
-          'balloonContentFooter': 'г.Киров, ул. Блюхера, дом 8а',
-          'hintContent': 'г.Киров, ул. Блюхера, дом 8а',
+          'balloonContentFooter': i.address,
+          'hintContent': i.address,
         },
       })),
     })
 
     // _map.container.fitToViewport()
+
+    const mySearchControl = new ymaps.control.SearchControl({
+      options: {
+        // Заменяем стандартный провайдер данных (геокодер) нашим собственным.
+        provider: new CustomSearchProvider(data),
+        // Не будем показывать еще одну метку при выборе результата поиска,
+        // т.к. метки коллекции myCollection уже добавлены на карту.
+        noPlacemark: true,
+        resultsPerPage: 5,
+      }});
+
+    _map.controls
+        .add(mySearchControl);
   })
 }
 
