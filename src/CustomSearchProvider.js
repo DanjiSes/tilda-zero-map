@@ -5,24 +5,27 @@
 // Провайдер данных для элемента управления ymaps.control.SearchControl.
 // Осуществляет поиск геообъектов в по массиву points.
 // Реализует интерфейс IGeocodeProvider.
-export function CustomSearchProvider(points) {
+function CustomSearchProvider(points) {
   this.points = points;
 }
 
 // Провайдер ищет по полю text стандартным методом String.ptototype.indexOf.
 CustomSearchProvider.prototype.geocode = function(request, options) {
-  const deferred = new ymaps.vow.defer();
-  const geoObjects = new ymaps.GeoObjectCollection();
+  var deferred = new ymaps.vow.defer();
+  var geoObjects = new ymaps.GeoObjectCollection();
   // Сколько результатов нужно пропустить.
-  const offset = options.skip || 0;
+  var offset = options.skip || 0;
   // Количество возвращаемых результатов.
-  const limit = options.results || 20;
+  var limit = options.results || 20;
 
-  let points = [];
+  var points = [];
   // Ищем в свойстве text каждого элемента массива.
   for (var i = 0, l = this.points.length; i < l; i++) {
     var point = this.points[i];
-    if (point.name.toLowerCase().indexOf(request.toLowerCase()) != -1) {
+    if (
+      point.name.toLowerCase().indexOf(request.toLowerCase()) != -1 ||
+      point.address.toLowerCase().indexOf(request.toLowerCase()) != -1
+    ) {
       points.push(point);
     }
   }
@@ -31,19 +34,17 @@ CustomSearchProvider.prototype.geocode = function(request, options) {
   // Добавляем точки в результирующую коллекцию.
   for (var i = 0, l = points.length; i < l; i++) {
     var point = points[i];
-    const coords = point.coords;
+    var coords = point.coords;
+    var text = point.name;
 
-    geoObjects.add(new ymaps.Placemark(coords, {
-      'balloonContentHeader': point.name, // name
-      'balloonContentBody': `
-        <p>
-          <b>Телефон:</b>
-          ${point.phones.map((p) => `<a href="tel:${p}" target="_blank">${p}</a>`).join(', ')}
-        </p>
-      `,
-      'balloonContentFooter': point.address,
-      'hintContent': point.address,
-    }));
+    geoObjects.add(
+        new ymaps.Placemark(coords, {
+          name: text,
+          description: point.address,
+          balloonContentBody: '',
+          boundedBy: [coords, coords],
+        })
+    );
   }
 
   deferred.resolve({
@@ -67,3 +68,5 @@ CustomSearchProvider.prototype.geocode = function(request, options) {
   // Возвращаем объект-обещание.
   return deferred.promise();
 };
+
+export {CustomSearchProvider};
