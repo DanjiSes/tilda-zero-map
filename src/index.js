@@ -1,7 +1,7 @@
 import defaultData from './partners.json';
 import {CustomSearchProvider} from './CustomSearchProvider';
 
-const iconColor = '#ef6b03';
+const iconColor = window.sMarkerColor || '#ef6b03';
 
 const data = window.sMapData || defaultData
 
