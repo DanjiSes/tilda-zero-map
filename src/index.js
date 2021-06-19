@@ -1,7 +1,9 @@
-import data from './partners.json';
+import defaultData from './partners.json';
 import {CustomSearchProvider} from './CustomSearchProvider';
 
 const iconColor = '#ef6b03';
+
+const data = window.sMapData || defaultData
 
 /**
  * Функция рендера карты ПВЗ
@@ -43,7 +45,7 @@ export const renderMap = (recId) => {
       sCollection.add(new ymaps.Placemark(
           point.coords,
           {
-            balloonContentHeader: point.name, // name
+            balloonContentHeader: point.name,
             balloonContentBody: `
             <p>
               <b>Телефон:</b>
@@ -52,6 +54,9 @@ export const renderMap = (recId) => {
           `,
             balloonContentFooter: point.address,
             hintContent: point.address,
+          },
+          {
+            iconColor: iconColor,
           }
       ))
     }
