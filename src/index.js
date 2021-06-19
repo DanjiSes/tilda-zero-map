@@ -1,5 +1,4 @@
 import data from './partners.json'
-import ex from './ex.json'
 import {CustomSearchProvider} from './CustomSearchProvider';
 
 const iconColor = '#ef6b03'
