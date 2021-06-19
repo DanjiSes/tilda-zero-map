@@ -67,3 +67,7 @@ window.sMapData = [
 
 <script src="https://danjises.github.io/tilda-search-map-zero/dist/install.js"></script>
 ```
+
+# Как это должно выглядеть в тильде
+
+![alt text](src/tilda-view.png?raw=true)
