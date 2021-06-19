@@ -9,8 +9,8 @@ $(function() {
   script.src = devMode ? 'http://savchenko.sl:3000/bundle.js' : 'https://danjises.github.io/slider-konstatntin-tilda/dist/bundle.' + hash + '.js'
 
   var link = document.createElement('link')
-  link.rel = 'stylesheet'
-  link.href = devMode ? 'http://savchenko.sl:3000/bundle.css' : 'https://danjises.github.io/slider-konstatntin-tilda/dist/bundle.' + hash + '.css'
+  // link.rel = 'stylesheet'
+  // link.href = devMode ? 'http://savchenko.sl:3000/bundle.css' : 'https://danjises.github.io/slider-konstatntin-tilda/dist/bundle.' + hash + '.css'
 
   $('body').append([script, link])
 })
