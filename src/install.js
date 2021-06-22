@@ -2,7 +2,7 @@
 
 $(function() {
   var hash = '[hash]'
-  var devMode = window.location.hostname.split('.').reverse()[0] === 'ws'
+  var devMode = window._devMode || window.location.hostname.split('.').reverse()[0] === 'ws'
 
   var script = document.createElement('script')
   script.type = 'text/javascript'
