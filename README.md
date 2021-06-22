@@ -63,6 +63,7 @@ window.sMapData = [
 <script>
 	window.shRecId = "rec315540300" // id блока с картой
 	window.sMarkerColor = "#ef6b03" // код цвета маркеров
+	window._devMode = false // не удалять, это нужно
 </script>
 
 <script src="https://danjises.github.io/tilda-search-map-zero/dist/install.js"></script>
