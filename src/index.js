@@ -77,6 +77,12 @@ export const renderMap = (recId) => {
       },
     });
 
+    mySearchControl.events.add('resultshow', () => {
+      __shMap__.setZoom(17)
+    })
+
+    window.__mySearchControl__ = mySearchControl;
+
     sMap.controls.add(mySearchControl);
   });
 };
