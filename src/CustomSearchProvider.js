@@ -66,7 +66,10 @@ CustomSearchProvider.prototype.geocode = function(request, options) {
   });
 
   // Возвращаем объект-обещание.
-  return deferred.promise();
+  return deferred.promise().then((data) => {
+    console.log(window.__shMap__?.getZoom())
+    return data
+  })
 };
 
 export {CustomSearchProvider};

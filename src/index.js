@@ -1,5 +1,5 @@
-import defaultData from './partners.json';
 import {CustomSearchProvider} from './CustomSearchProvider';
+import defaultData from './partners.json';
 
 const iconColor = window.sMarkerColor || '#ef6b03';
 
@@ -16,6 +16,7 @@ export const renderMap = (recId) => {
 
   // Элемент в который помещается карта
   const $map = $(`#${recId} .sh-mapMarkers`);
+  $map.height($map.parent().height());
 
   // Вчсчитываю координаты цента для карты
   const mapCenter = data.reduce(
@@ -35,6 +36,8 @@ export const renderMap = (recId) => {
       zoom: 4,
       controls: ['zoomControl'],
     });
+
+    window.__shMap__ = sMap;
 
     // Создаю коллекцию
     const sCollection = new ymaps.GeoObjectCollection()
