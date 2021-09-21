@@ -1,9 +1,9 @@
-import {CustomSearchProvider} from './CustomSearchProvider';
-import defaultData from './partners.json';
+import { CustomSearchProvider } from "./CustomSearchProvider";
+import defaultData from "./partners.json";
 
-const iconColor = window.sMarkerColor || '#ef6b03';
+const iconColor = window.sMarkerColor || "#ef6b03";
 
-const data = window.sMapData || defaultData
+const data = window.sMapData || defaultData;
 
 /**
  * Функция рендера карты ПВЗ
@@ -20,8 +20,8 @@ export const renderMap = (recId) => {
 
   // Вчсчитываю координаты цента для карты
   const mapCenter = data.reduce(
-      (acc, {coords}) => [(acc[0] += coords[0]), (acc[1] += coords[1])],
-      [0, 0]
+    (acc, { coords }) => [(acc[0] += coords[0]), (acc[1] += coords[1])],
+    [0, 0]
   );
   mapCenter[0] /= data.length;
   mapCenter[1] /= data.length;
@@ -34,25 +34,28 @@ export const renderMap = (recId) => {
     const sMap = new ymaps.Map($map[0], {
       center: mapCenter,
       zoom: 4,
-      controls: ['zoomControl'],
+      controls: ["zoomControl"],
     });
 
     window.__shMap__ = sMap;
 
     // Создаю коллекцию
-    const sCollection = new ymaps.GeoObjectCollection()
+    const sCollection = new ymaps.GeoObjectCollection();
 
     // Заполняю коллекцию данными
     for (let i = 0; i < data.length; i++) {
-      const point = data[i]
-      sCollection.add(new ymaps.Placemark(
+      const point = data[i];
+      sCollection.add(
+        new ymaps.Placemark(
           point.coords,
           {
             balloonContentHeader: point.name,
             balloonContentBody: `
             <p>
               <b>Телефон:</b>
-              ${point.phones.map((p) => `<a href="tel:${p}" target="_blank">${p}</a>`).join(', ')}
+              ${point.phones
+                .map((p) => `<a href="tel:${p}" target="_blank">${p}</a>`)
+                .join(", ")}
             </p>
           `,
             balloonContentFooter: point.address,
@@ -61,10 +64,11 @@ export const renderMap = (recId) => {
           {
             iconColor: iconColor,
           }
-      ))
+        )
+      );
     }
 
-    sMap.geoObjects.add(sCollection)
+    sMap.geoObjects.add(sCollection);
 
     const mySearchControl = new ymaps.control.SearchControl({
       options: {
@@ -77,9 +81,9 @@ export const renderMap = (recId) => {
       },
     });
 
-    mySearchControl.events.add('resultshow', () => {
-      __shMap__.setZoom(17)
-    })
+    mySearchControl.events.add("resultshow", () => {
+      __shMap__.setZoom(17);
+    });
 
     window.__mySearchControl__ = mySearchControl;
 
@@ -87,6 +91,6 @@ export const renderMap = (recId) => {
   });
 };
 
-$(function() {
-  renderMap(window.shRecId || 'rec315540300');
+$(function () {
+  renderMap(window.shRecId || "rec315540300");
 });
