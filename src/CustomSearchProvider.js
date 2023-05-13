@@ -10,7 +10,7 @@ function CustomSearchProvider(points) {
 }
 
 // Провайдер ищет по полю text стандартным методом String.ptototype.indexOf.
-CustomSearchProvider.prototype.geocode = function(request, options) {
+CustomSearchProvider.prototype.geocode = function (request, options) {
   var deferred = new ymaps.vow.defer();
   var geoObjects = new ymaps.GeoObjectCollection();
   // Сколько результатов нужно пропустить.
@@ -38,12 +38,14 @@ CustomSearchProvider.prototype.geocode = function(request, options) {
     var text = point.name;
 
     geoObjects.add(
-        new ymaps.Placemark(coords, {
-          name: text,
-          description: point.address,
-          balloonContentBody: '',
-          boundedBy: [coords, coords],
-        })
+      new ymaps.Placemark(coords, {
+        name: text,
+        description: point.address,
+        balloonContentBody: "",
+        boundedBy: [coords, coords],
+        iconImageHref:
+          "https://danjises.github.io/tilda-map-with-cities/dist/mark.svg",
+      })
     );
   }
 
@@ -67,9 +69,9 @@ CustomSearchProvider.prototype.geocode = function(request, options) {
 
   // Возвращаем объект-обещание.
   return deferred.promise().then((data) => {
-    console.log(window.__shMap__?.getZoom())
-    return data
-  })
+    console.log(window.__shMap__?.getZoom());
+    return data;
+  });
 };
 
-export {CustomSearchProvider};
+export { CustomSearchProvider };
