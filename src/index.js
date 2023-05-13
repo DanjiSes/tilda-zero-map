@@ -89,8 +89,31 @@ export const renderMap = (recId) => {
 
     sMap.controls.add(mySearchControl);
   });
+
+  /**
+   * Вешаю обработчик клика на город
+   */
+  $('[href^="#sh-mapMarkers:"').on("click", function (event) {
+    event.preventDefault();
+
+    const city = $(this).attr("href").split(":")[1];
+    const markersIncity = data.filter(
+      (i) => i.city.toLocaleLowerCase() === city.toLocaleLowerCase()
+    );
+    const center = markersIncity.reduce(
+      (acc, { coords }) => [(acc[0] += coords[0]), (acc[1] += coords[1])],
+      [0, 0]
+    );
+    center[0] /= markersIncity.length;
+    center[1] /= markersIncity.length;
+
+    __shMap__.setZoom(10);
+    __shMap__.setCenter(center);
+  });
 };
 
 $(function () {
   renderMap(window.shRecId || "rec315540300");
 });
+
+console.log("Tilda Custom Map: Developed by savchenko.dev");
