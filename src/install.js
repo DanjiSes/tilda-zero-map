@@ -11,7 +11,7 @@ $(function () {
   script.type = "text/javascript";
   script.src = devMode
     ? "http://savchenko.sl:3000/bundle.js"
-    : "https://danjises.github.io/tilda-search-map-zero/dist/bundle." +
+    : "https://danjises.github.io/tilda-map-with-cities/dist/bundle." +
       hash +
       ".js";
 
