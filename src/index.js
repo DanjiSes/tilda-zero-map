@@ -62,7 +62,11 @@ export const renderMap = (recId) => {
             hintContent: point.address,
           },
           {
-            iconColor: iconColor,
+            // iconColor: iconColor,
+            iconLayout: "default#image",
+            iconImageSize: [30, 36],
+            iconImageHref:
+              "https://danjises.github.io/tilda-map-with-cities/dist/mark.png",
           }
         )
       );
