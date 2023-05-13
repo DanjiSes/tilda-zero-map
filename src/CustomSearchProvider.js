@@ -43,6 +43,8 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
         description: point.address,
         balloonContentBody: "",
         boundedBy: [coords, coords],
+        iconLayout: "default#image",
+        iconImageSize: [30, 36],
         iconImageHref:
           "https://danjises.github.io/tilda-map-with-cities/dist/mark.svg",
       })
